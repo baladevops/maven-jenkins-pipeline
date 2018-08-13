@@ -1,2 +1,56 @@
 # maven-jenkins-pipeline
 A sample maven pipeline based CI/CD with docker
+
+== Manual Steps
+
+. *Start database*: `docker run -d --name db -p 8091-8093:8091-8093 -p 11210:11210 arungupta/oreilly-couchbase:latest`
+. *Run app*
+.. Using Maven
+... *Build app*: `mvn -f webapp/pom.xml clean package`
+... *Run app*: `mvn -f webapp/pom.xml exec:java -DskipTests`
+... *Run test*: `mvn -f webapp/pom.xml test`
+.. Using Docker
+... *Build app*: `docker-compose build app`
+... *Run app*:
++
+```
+docker-compose run -e DB_URI=`docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' db` app
+```
++
+... *Run test*: `mvn test`
+
+== Jenkins
+
+=== Configure
+
+. Download Jenkins, this was tested with 2.21[http://mirrors.jenkins-ci.org/war/2.21/jenkins.war].
+. Start Jenkins: `JENKINS_HOME=~/.jenkins java -jar ~/Downloads/jenkins-2.21.war --httpPort=9090`
+. Create First Admin User, `Save and Finish`.
+. Install suggested plugins
+. `Manage Jenkins`, `Global Tool Configuration`, configure Maven, use name `Maven3` (this name is used in `Jenkinsfile`)
+. `Manage Jenkins`, `Manage Plugins`, `Available`, install `CloudBees Docker Pipeline` plugin, `Install without restart`, select `Restart Jenkins`
+
+=== Create Project
+
+. Create a new project of the type `Pipeline`
+. Configure git repo
+. `Build Now`
+
+== Bintray Configuration
+
+This setup is required if you want to push to bintray repository instead.
+
+=== Setup Bintray repository
+
+. Create Bintray account
+. Find the following credentials from Profile. These will be used in Jenkins credentials later.
+.. Username
+.. API key
+
+=== Configure Bintray in Jenkins
+
+. Add your credentials using `Username and Password`, use username and API key from Bintray. Use the name `bintray`, this is used in `Jenkinsfile`.
+. Add Maven installation directory, call it `Maven3`. This name is used in `Jenkinsfile`.
+. Create a new project, use `Pipeline Script from SCM`
+. Build the project pushes a Docker image to bintray repo
+
