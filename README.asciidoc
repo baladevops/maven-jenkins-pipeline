@@ -35,22 +35,3 @@ docker-compose run -e DB_URI=`docker inspect --format='{{range .NetworkSettings.
 . Create a new project of the type `Pipeline`
 . Configure git repo
 . `Build Now`
-
-== Bintray Configuration
-
-This setup is required if you want to push to bintray repository instead.
-
-=== Setup Bintray repository
-
-. Create Bintray account
-. Find the following credentials from Profile. These will be used in Jenkins credentials later.
-.. Username
-.. API key
-
-=== Configure Bintray in Jenkins
-
-. Add your credentials using `Username and Password`, use username and API key from Bintray. Use the name `bintray`, this is used in `Jenkinsfile`.
-. Add Maven installation directory, call it `Maven3`. This name is used in `Jenkinsfile`.
-. Create a new project, use `Pipeline Script from SCM`
-. Build the project pushes a Docker image to bintray repo
-
