@@ -28,7 +28,13 @@ docker-compose run -e DB_URI=`docker inspect --format='{{range .NetworkSettings.
 . Create First Admin User, `Save and Finish`.
 . Install suggested plugins
 . `Manage Jenkins`, `Global Tool Configuration`, configure Maven, use name `Maven3` (this name is used in `Jenkinsfile`)
-. `Manage Jenkins`, `Manage Plugins`, `Available`, install `CloudBees Docker Pipeline` plugin, `Install without restart`, select `Restart Jenkins`
+. `Manage Jenkins`, `Manage Plugins`, `Available`, install `CloudBees Docker Pipeline` and `Jacoco` and `Sonar Scanner` plugins, `Install without restart`, select `Restart Jenkins`
+. Make sure you have Sonar sever running (i.e. http://localhost:9000). Login with default credentials admin/admin. 
+. Create user in security tab and generate an access token, also create a Project `WebApp` with a peoject key as used in sonar-project.properties
+. Download SonarQube scanner from[https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner].
+. Go to the Manage Jenkins > Configure system and provide the credentials for Sonar Server 
+. Add the “SonarQube Server” name running on URL http://localhost:9000 alongwith user authentication key generated in SonarQube Server user administration page
+. Make sure the Sonar scanner path is configured properly as its path is hard coded in Jenkinsfile. You can modify the path as applicable
 
 === Create Project
 
