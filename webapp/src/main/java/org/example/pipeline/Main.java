@@ -20,8 +20,6 @@ public class Main {
         bucket.upsert(document);
 
         JsonDocument doc = bucket.get("minecraft");
-        System.out.println(doc.content());
-        
-        System.out.println("Hello World!");
+        System.out.println(doc.content());                
     }
 }
