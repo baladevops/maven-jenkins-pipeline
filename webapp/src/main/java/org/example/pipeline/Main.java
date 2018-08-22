@@ -4,9 +4,6 @@ import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.document.JsonDocument;
 import com.couchbase.client.java.document.json.JsonObject;
 
-/**
- * @arungupta
- */
 public class Main {
 
     public static void main(String[] args) {
